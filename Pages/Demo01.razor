@@ -1,0 +1,40 @@
+﻿@page "/demo01"
+@inject ContactService contactService
+
+<h3>Lista de Contactos</h3>
+
+<input placeholder="Nombre" @bind= "nombre" />
+<br /><br />
+<input placeholder="Apellido" @bind= "apellido" />
+<br /><br />
+<input placeholder="Email" @bind= "email" />
+<br /><br />
+<button @onclick="AgregarContacto">Agregar Contacto</button>
+<br />
+<br />
+
+@if (contactService.ContactList.Count == 0)
+{
+    <b>Sin contactos</b>
+}
+else
+{
+    @foreach (var contact in contactService.ContactList)
+    {
+        <b> @contact.Nombre @contact.Apellido</b><br />
+        <i> @contact.Email</i><br />
+    }
+}
+
+@code {
+    private string nombre, apellido, email;
+
+    private void AgregarContacto()
+    {
+        var contact = new Models.Contact
+            {
+                Nombre = nombre, Apellido = apellido, Email= email
+            };
+        contactService.AgregarContacto(contact);
+    }
+}
